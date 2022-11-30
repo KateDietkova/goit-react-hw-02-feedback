@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Buttons } from './Buttons/Buttons';
-
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Statistics } from './Statistics/Statistics';
+import { Section } from './Section/Section';
+import { Notification } from './Notification/Notification';
 const buttons = ['Good', 'Neutral', 'Bad'];
 
 export class App extends Component {
@@ -10,24 +12,24 @@ export class App extends Component {
     bad: 0,
   };
 
-  onCountFeedback = (e) => {
+  onCountFeedback = e => {
     const typeFeedback = e.target.textContent.toLowerCase();
     this.setState(prevState => ({
       [typeFeedback]: prevState[typeFeedback] + 1,
     }));
-  }
+  };
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
     let total = good + neutral + bad;
     return total;
-  }
+  };
 
-  countPositiveFeedbackPercentage = (total) => {
+  countPositiveFeedbackPercentage = total => {
     const { good } = this.state;
     if (total !== 0) return Math.floor((good / total) * 100);
     return 0;
-  }
+  };
 
   render() {
     const { good, neutral, bad } = this.state;
@@ -36,15 +38,23 @@ export class App extends Component {
       this.countPositiveFeedbackPercentage(countTotal);
     return (
       <>
-        <Buttons buttons={buttons} onCount={this.onCountFeedback} />
-
-        <h2>Statistics</h2>
-
-        <p>Good: {good}</p>
-        <p>Neutral: {neutral}</p>
-        <p>Bad: {bad}</p>
-        <p>Total:{countTotal}</p>
-        <p>Positive Feedback: {percentPositiveFeedback} %</p>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={buttons}
+            onLeaveFeedback={this.onCountFeedback}
+          />
+        </Section>
+        {countTotal !== 0 ?
+          <Section title="Statistics">
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={countTotal}
+              positivePercentage={percentPositiveFeedback}
+            />
+          </Section>
+          : <Notification message="There is no feedback" />}
       </>
     );
   }
