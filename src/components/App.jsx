@@ -3,7 +3,7 @@ import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 import { Section } from './Section/Section';
 import { Notification } from './Notification/Notification';
-const buttons = ['Good', 'Neutral', 'Bad'];
+import options from 'data/options.json';
 
 export class App extends Component {
   state = {
@@ -40,11 +40,11 @@ export class App extends Component {
       <>
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options={buttons}
+            options={options}
             onLeaveFeedback={this.onCountFeedback}
           />
         </Section>
-        {countTotal !== 0 ?
+        {countTotal !== 0 ? (
           <Section title="Statistics">
             <Statistics
               good={good}
@@ -54,7 +54,9 @@ export class App extends Component {
               positivePercentage={percentPositiveFeedback}
             />
           </Section>
-          : <Notification message="There is no feedback" />}
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
       </>
     );
   }
