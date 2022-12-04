@@ -3,9 +3,7 @@ import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 import { Section } from './Section/Section';
 import { Notification } from './Notification/Notification';
-import options from 'data/options.json';
 import { Box } from './Box/Box';
-
 
 export class App extends Component {
   state = {
@@ -42,7 +40,7 @@ export class App extends Component {
       <Box display="flex" flexDirection="column" alignItems="center">
         <Section title="Please leave feedback">
           <FeedbackOptions
-            options={options}
+            options={Object.keys(this.state)}
             onLeaveFeedback={this.onCountFeedback}
           />
         </Section>
